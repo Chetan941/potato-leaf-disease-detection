@@ -76,7 +76,7 @@ elif app_mode == "Disease Recognition":
     with col1:
         if st.button("📷 Show The Image"):
             if test_image is not None:
-                st.image(test_image, use_column_width=True)
+                st.image(test_image, use_container_width=True)
             else:
                 st.warning("⚠️ Please upload an image first.")
 
