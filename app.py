@@ -19,13 +19,15 @@ st.set_page_config(
 )
 
 # Model download (if not available)
-file_id = "1KCzBv0387IKn1i7Jw7FB2dBWtXHefI2Z"
+file_id = "1lbuyatt4JA9FKiNxDoP0nGmhFo7ChZ2e"
 url = f"https://drive.google.com/uc?id={file_id}"
-model_path = "trained_plant_disease_model.keras"
+model_path = "trained_plant_disease_model.tflite"
 
 if not os.path.exists(model_path):
-    st.warning("Downloading model from Google Drive...")
+    st.warning("Downloading model from Google Drive (only once)...")
     gdown.download(url, model_path, quiet=False)
+else:
+    st.success("✅ Model already downloaded.")
 
 # Load model function
 def model_prediction(test_image):
