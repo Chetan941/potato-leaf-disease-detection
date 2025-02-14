@@ -19,7 +19,7 @@ st.set_page_config(
 )
 
 # Model download (if not available)
-file_id = "11qQDXt0FnGMISyaqpLhbfoJv0TtFjdouC"
+file_id = "1qQDXt0FnGMISyaqpLhbfoJv0TtFjdouC"
 url = f"https://drive.google.com/uc?id={file_id}"
 model_path = "trained_plant_disease_model.keras"
 
