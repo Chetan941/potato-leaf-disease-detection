@@ -1,14 +1,15 @@
 import os
+
+# Force TensorFlow to use CPU only
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "false"
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+
 import streamlit as st
 import tensorflow as tf
 import numpy as np
 import gdown
 from PIL import Image
-
-# Force TensorFlow to use CPU
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "false"
-os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 
 # Set page configuration (must be the first Streamlit command)
 st.set_page_config(
