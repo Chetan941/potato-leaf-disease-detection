@@ -1,9 +1,12 @@
+import os
 import streamlit as st
 import tensorflow as tf
 import numpy as np
-import os
 import gdown
 from PIL import Image
+
+# Force TensorFlow to use CPU
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 # Set page configuration (must be the first Streamlit command)
 st.set_page_config(
