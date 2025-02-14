@@ -35,7 +35,7 @@ st.sidebar.title("🌿 Plant Disease Detection System")
 app_mode = st.sidebar.radio("Select Page:", ["Home", "Disease Recognition"])
 
 # Display banner image
-img = Image.open("Diseases.png")
+img = Image.open("diseases.jpg")
 st.image(img, use_column_width=True)
 
 # Homepage content
