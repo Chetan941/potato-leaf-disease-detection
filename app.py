@@ -2,6 +2,8 @@ import os
 
 # Force TensorFlow to use CPU only
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "false"
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 
 import streamlit as st
 import tensorflow as tf
@@ -17,9 +19,9 @@ st.set_page_config(
 )
 
 # Model download (if not available)
-file_id = "1lbuyatt4JA9FKiNxDoP0nGmhFo7ChZ2e"
+file_id = "11qQDXt0FnGMISyaqpLhbfoJv0TtFjdouC"
 url = f"https://drive.google.com/uc?id={file_id}"
-model_path = "trained_plant_disease_model.tflite"
+model_path = "trained_plant_disease_model.keras"
 
 if not os.path.exists(model_path):
     st.warning("Downloading model from Google Drive (only once)...")
@@ -27,28 +29,14 @@ if not os.path.exists(model_path):
 else:
     st.success("✅ Model already downloaded.")
 
-# Load TFLite model function
+# Load model function
 def model_prediction(test_image):
-    # Load TFLite model
-    interpreter = tf.lite.Interpreter(model_path=model_path)
-    interpreter.allocate_tensors()
-
-    # Get input and output details
-    input_details = interpreter.get_input_details()
-    output_details = interpreter.get_output_details()
-
-    # Load and preprocess the image
-    image = Image.open(test_image).resize((128, 128))  # Resize to match model input size
-    image = np.array(image, dtype=np.float32) / 255.0  # Normalize pixel values
-    image = np.expand_dims(image, axis=0)  # Add batch dimension
-
-    # Set input tensor and invoke the model
-    interpreter.set_tensor(input_details[0]['index'], image)
-    interpreter.invoke()
-
-    # Get model prediction
-    output_data = interpreter.get_tensor(output_details[0]['index'])
-    return np.argmax(output_data)  # Return index of the predicted class
+    model = tf.keras.models.load_model(model_path)
+    image = tf.keras.preprocessing.image.load_img(test_image, target_size=(128, 128))
+    input_arr = tf.keras.preprocessing.image.img_to_array(image)
+    input_arr = np.array([input_arr])  # Convert single image to batch
+    predictions = model.predict(input_arr)
+    return np.argmax(predictions)  # Return index of the predicted class
 
 # Sidebar navigation
 st.sidebar.title("🌿 Plant Disease Detection System")
@@ -80,7 +68,7 @@ elif app_mode == "Disease Recognition":
             else:
                 st.warning("⚠️ Please upload an image first.")
 
-    # Define information for each disease category
+# Define information for each disease category
     disease_info = {
         "Potato___Early_blight": """🛑 **Early Blight**  
         - **Cause**: Fungus *Alternaria solani*  
