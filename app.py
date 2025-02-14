@@ -36,7 +36,7 @@ app_mode = st.sidebar.radio("Select Page:", ["Home", "Disease Recognition"])
 
 # Display banner image
 img = Image.open("diseases.jpg")
-st.image(img, use_column_width=True)
+st.image(img, use_container_width=True)
 
 # Homepage content
 if app_mode == "Home":
@@ -46,19 +46,52 @@ if app_mode == "Home":
 elif app_mode == "Disease Recognition":
     st.header("🔬 Plant Disease Recognition System")
 
+    # File uploader
     test_image = st.file_uploader("📸 Choose an Image:")
 
-    if test_image:
-        st.image(test_image, use_column_width=True)
+    # Layout buttons in two columns
+    col1, col2 = st.columns([1, 1])
 
-    if st.button("🔍 Predict"):
-        if test_image is not None:
-            st.snow()
-            st.write("✅ **Our Prediction**")
-            result_index = model_prediction(test_image)
+    # Show uploaded image only if test_image is not None
+    with col1:
+        if st.button("📷 Show The Image"):
+            if test_image is not None:
+                st.image(test_image, use_container_width=True)
+            else:
+                st.warning("⚠️ Please upload an image first.")
 
-            # Class labels
-            class_name = ["Potato___Early_blight", "Potato___Late_blight", "Potato___healthy"]
-            st.success(f"🌿 **Model predicts:** {class_name[result_index]}")
-        else:
-            st.warning("⚠️ Please upload an image before predicting.")
+# Define information for each disease category
+    disease_info = {
+        "Potato___Early_blight": """🛑 **Early Blight**  
+        - **Cause**: Fungus *Alternaria solani*  
+        - **Symptoms**: Dark brown spots with concentric rings on leaves.  
+        - **Prevention**: Avoid overhead watering, use resistant varieties, and apply fungicides.  
+        """,
+        
+        "Potato___Late_blight": """⚠️ **Late Blight**  
+        - **Cause**: Pathogen *Phytophthora infestans*  
+        - **Symptoms**: Dark, water-soaked lesions that spread rapidly in humid conditions.  
+        - **Prevention**: Remove infected plants, improve air circulation, and use fungicides.  
+        """,
+
+        "Potato___healthy": """✅ **Healthy Plant**  
+        - Your plant appears **healthy** with no visible disease symptoms. 🎉  
+        - Keep monitoring for any changes and maintain good farming practices!  
+        """
+    }
+
+    # Predict button only if test_image is not None
+    with col2:
+        if st.button("🔍 Predict"):
+            if test_image is not None:
+                st.balloons()
+                st.write("✅ **Our Prediction**")
+                result_index = model_prediction(test_image)
+                class_name = ["Potato___Early_blight", "Potato___Late_blight", "Potato___healthy"]
+                predicted_category = class_name[result_index]
+
+                # Display the prediction result with additional information
+                st.success(f"🌿 **Model predicts:** {predicted_category}")
+                st.write(disease_info[predicted_category])  # Show relevant disease details
+            else:
+                st.warning("⚠️ Please upload an image before predicting.")
