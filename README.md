@@ -15,15 +15,13 @@ A Streamlit web application is provided for easy access, allowing users to uploa
 ________________________________________________________
 🚀 Features
 
-Deep Learning-Based: Uses a CNN model trained on plant disease datasets.
+Deep Learning Based: Uses a CNN model trained on plant disease datasets.
 
 Real-Time Image Classification: Upload a leaf image and get instant predictions.
 
 User-Friendly Web App: Built using Streamlit for a simple and interactive experience.
 
 Optimized for CPU Inference: Runs efficiently without requiring a high-end GPU.
-
-Scalable: Can be expanded to detect diseases in other plants.
 ________________________________________________________
 🛠️ Tech Stack
 
