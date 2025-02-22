@@ -11,14 +11,14 @@ import numpy as np
 import gdown
 from PIL import Image
 
-# Set page configuration (must be the first Streamlit command)
+# Set page configuration
 st.set_page_config(
     page_title="Plant Disease Detection",
     page_icon="🌿",
     layout="wide"
 )
 
-# Model download (if not available)
+# Model download
 file_id = "1qQDXt0FnGMISyaqpLhbfoJv0TtFjdouC"
 url = f"https://drive.google.com/uc?id={file_id}"
 model_path = "trained_plant_disease_model.keras"
